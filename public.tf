@@ -46,6 +46,11 @@ resource "aws_subnet" "public" {
   lifecycle {
     ignore_changes = [tags.kubernetes, tags.SubnetType]
   }
+
+  timeouts {
+    create = var.subnet_create_timeout
+    delete = var.subnet_delete_timeout
+  }
 }
 
 resource "aws_route_table" "public" {

@@ -10,6 +10,18 @@ variable "subnet_type_tag_value_format" {
   type        = string
 }
 
+variable "subnet_create_timeout" {
+  description = "subnet create timeout"
+  type        = string
+  default     = null
+}
+
+variable "subnet_delete_timeout" {
+  description = "subnet delete timeout"
+  type        = string
+  default     = null
+}
+
 variable "max_subnet_count" {
   default     = 0
   description = "Sets the maximum amount of subnets to deploy. 0 will deploy a subnet for every provided availablility zone (in `availability_zones` variable) within the region"
