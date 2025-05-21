@@ -38,6 +38,11 @@ resource "aws_subnet" "private" {
     # Ignore tags added by kops or kubernetes
     ignore_changes = [tags.kubernetes, tags.SubnetType]
   }
+
+  timeouts {
+    create = var.subnet_create_timeout
+    delete = var.subnet_delete_timeout
+  }
 }
 
 resource "aws_route_table" "private" {
