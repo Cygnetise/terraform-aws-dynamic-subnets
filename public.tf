@@ -52,7 +52,10 @@ resource "aws_route_table" "public" {
   count  = local.public_route_expr_enabled ? 0 : local.enabled_count
   vpc_id = join("", data.aws_vpc.default.*.id)
 
-  tags = module.public_label.tags
+  # cyg2: existing consumers' route tables predate the "public" attribute
+  # being folded into this Name (their Name was just the bare base id) —
+  # keep that instead of renaming a live, already-tagged resource.
+  tags = merge(module.public_label.tags, { Name = module.this.id })
 }
 
 resource "aws_route" "public" {
@@ -84,5 +87,7 @@ resource "aws_network_acl" "public" {
   vpc_id     = var.vpc_id
   subnet_ids = aws_subnet.public.*.id
 
-  tags = module.public_label.tags
+  # cyg2: see aws_route_table.public above for why this keeps the bare
+  # base Name instead of newly folding in the "public" attribute.
+  tags = merge(module.public_label.tags, { Name = module.this.id })
 }

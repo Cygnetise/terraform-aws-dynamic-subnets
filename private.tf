@@ -68,5 +68,7 @@ resource "aws_network_acl" "private" {
   vpc_id     = var.vpc_id
   subnet_ids = aws_subnet.private.*.id
 
-  tags = module.private_label.tags
+  # cyg2: see aws_route_table.public in public.tf for why this keeps the
+  # bare base Name instead of newly folding in the "private" attribute.
+  tags = merge(module.private_label.tags, { Name = module.this.id })
 }
